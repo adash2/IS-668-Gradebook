@@ -21,6 +21,14 @@ CREATE TABLE assignment (
   s_id INT,
   c_id INT,
   PRIMARY KEY (a_id),
-  FOREIGN KEY (s_id) REFERENCES students(s_id),
-  FOREIGN KEY (c_id) REFERENCES class(c_id)
+  CONSTRAINT fk_sid_cid FOREIGN KEY (s_id, c_id)
+                        REFERENCES studentClass(s_id, c_id)
+);
+
+CREATE TABLE studentClass (
+  s_id INT,
+  c_id INT,
+  FOREIGN KEY (s_id) REFERENCES students (s_id),
+  FOREIGN KEY (c_id) REFERENCES class (c_id),
+  PRIMARY KEY(s_id, c_id)
 );
