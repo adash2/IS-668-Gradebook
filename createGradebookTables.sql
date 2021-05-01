@@ -32,3 +32,10 @@ CREATE TABLE studentClass (
   FOREIGN KEY (c_id) REFERENCES class (c_id),
   PRIMARY KEY(s_id, c_id)
 );
+
+INSERT INTO students 
+VALUES 
+(1, 'Eccleston', 'Shaw', 'Biology','seccleston@umbc.edu'),
+(2, 'Arterbury', 'Brion', 'Chemical Engineering', 'barterbury@umbc.edu'),
+(3, 'Samuel', 'Annalise', 'Information Systems', 'asamuel@umbc.edu'),
+(4, 'Ayers', 'Lissa', 'Accounting', 'layers@umbc.edu');
