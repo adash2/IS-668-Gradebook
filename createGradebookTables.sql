@@ -39,3 +39,18 @@ VALUES
 (2, 'Arterbury', 'Brion', 'Chemical Engineering', 'barterbury@umbc.edu'),
 (3, 'Samuel', 'Annalise', 'Information Systems', 'asamuel@umbc.edu'),
 (4, 'Ayers', 'Lissa', 'Accounting', 'layers@umbc.edu');
+
+INSERT INTO class
+VALUES
+(1, 'IS 668', 'Dr. Paul Comitz'),
+(2, 'IS 672', 'Dr. Agusto Casas'),
+(3, 'IS 698', 'Dr. George Karabatis'),
+(4, 'IS 633', 'Dr. Zhiyuan Chen');
+
+INSERT INTO assignment
+VALUES 
+(1, 'Assignment 1', 98.5, 3, 1),
+(2, 'Assignment 2', 76.8, 2, 2),
+(3, 'Assignment 3', 94.5, 1, 3),
+(4, 'Assignment 4', 100, 4, 4);
+ 
