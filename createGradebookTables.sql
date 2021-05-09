@@ -54,3 +54,9 @@ VALUES
 (3, 'Assignment 3', 94.5, 1, 3),
 (4, 'Assignment 4', 100, 4, 4);
  
+INSERT INTO studentClass
+VALUES
+(1, 1),
+(2, 2),
+(3, 3),
+(4, 4);
