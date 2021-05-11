@@ -17,7 +17,7 @@ CREATE TABLE class (
 CREATE TABLE assignment (
   a_id INT NOT NULL AUTO_INCREMENT,
   a_name VARCHAR(120),
-  a_grade DOUBLE(4, 2),
+  a_grade DOUBLE,
   s_id INT,
   c_id INT,
   PRIMARY KEY (a_id),
