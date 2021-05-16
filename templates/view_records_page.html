@@ -42,6 +42,7 @@
                 <table class="table table-striped">
                     <thead>
                         <tr>
+                          <th scope="col">Student ID</th>
                           <th scope="col">First Name</th>
                           <th scope="col">Last Name</th>
                           <th scope="col">Major</th>
@@ -51,6 +52,9 @@
                     {% for student in students %}
                         <th scope="row">
                             <tbody>
+                                <td>
+                                    {{ student.s_id }}
+                                </td>
                                 <td>
                                     {{ student.s_first_name }}
                                 </td>
