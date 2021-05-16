@@ -1,0 +1,148 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <title>My scratchboard page</title>
+    </head>
+
+    <body>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#">Anmol's scratchpad: Main Page, Date: 04/24/2021, IS-668 <span class="sr-only">(current)</span></a>
+                    </li>
+                </ul>
+                <span class="navbar-text">
+                    <ul class="nav navbar-nav navbar-right">
+                        {% if current_user.is_authenticated %}
+                            <li><a href="{{ url_for('logout') }}">Log out</a></li>
+                        {% else %}
+                            <li><a href="{{ url_for('login') }}">Log in</a></li>
+                        {% endif %}
+                    </ul>
+                </span>
+            </div>
+        </nav>
+
+        <nav class="navbar navbar-expand-sm bg-light">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="http://acis668.pythonanywhere.com/dashboard/">Dashboard</a>
+                    </li>
+                 </ul>
+        </nav>
+
+        {% if availableClasses is not defined %}
+            <div class="container">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                          <th scope="col">First Name</th>
+                          <th scope="col">Last Name</th>
+                          <th scope="col">Major</th>
+                          <th scope="col">e-Mail</th>
+                        </tr>
+                     </thead>
+                    {% for student in students %}
+                        <th scope="row">
+                            <tbody>
+                                <td>
+                                    {{ student.s_first_name }}
+                                </td>
+                                <td>
+                                    {{ student.s_last_name }}
+                                </td>
+                                <td>
+                                    {{ student.s_major }}
+                                </td>
+                                <td>
+                                    {{ student.s_email }}
+                                </td>
+                            </tbody>
+                        </th>
+                    {% endfor %}
+                </table>
+            </div><!-- /.container -->
+        {% endif %}
+
+        {% if availableClasses is defined %}
+            {% if selectedStudent|length>0 %}
+                <div class="container">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                              <th scope="col">First Name</th>
+                              <th scope="col">Last Name</th>
+                              <th scope="col">Class Name</th>
+                              <th scope="col">Class Professor</th>
+                            </tr>
+                         </thead>
+                        {% for Class, Students, StudentClass in selectedStudent %}
+                            <th scope="row">
+                                <tbody>
+                                    <td>
+                                        {{ Students.s_first_name }}
+                                    </td>
+                                    <td>
+                                        {{ Students.s_last_name }}
+                                    </td>
+                                    <td>
+                                        {{ Class.c_name }}
+                                    </td>
+                                    <td>
+                                        {{ Class.c_prof }}
+                                    </td>
+                                </tbody>
+                            </th>
+                        {% endfor %}
+                    </table>
+                </div><!-- /.container -->
+            {% else %}
+                <h2>Student is not in any classes!</h2>
+            {% endif %}
+        {% endif %}
+
+
+
+        <div class="container">
+            {% if current_user.is_authenticated %}
+                {% if availableClasses is not defined %}
+                    <form action="/chooseStudentForClass/" method="POST">
+                        Choose Student:<SELECT name="s_id" style="font-family:verdana">
+                        {% for student in students %}
+                          <OPTION value={{student.s_id}}>{{ student.s_first_name }} {{ student.s_last_name }}</OPTION>
+                        {% endfor %}
+                        </SELECT>
+                        <input type="submit" class="btn btn-success" value="Choose Student">
+                    </form>
+                {% endif %}
+
+                {% if availableClasses is defined and availableClasses|length == 0 %}
+                    <h2>{{selectedStudent[0].Students.s_first_name}} is in all classes!</h2>
+                {% elif availableClasses is defined %}
+                    <form action="/addStudentToClass/" method="POST">
+                        {% if selectedStudent|length>0 %}
+                            Choose Class to add {{selectedStudent[0].Students.s_first_name}} to:<SELECT name="studentClass" style="font-family:verdana">
+                            {% for class in availableClasses %}
+                              <OPTION value="{{class.c_id}},{{selectedStudent[0].Students.s_id}}">{{ class.c_name }}</OPTION>
+                            {% endfor %}
+                            </SELECT>
+                            <input type="submit" class="btn btn-success" value="Add Student to Class">
+                        {% else %}
+                            Choose Class to add student to:<SELECT name="studentClass" style="font-family:verdana">
+                            {% for class in availableClasses %}
+                              <OPTION value="{{class.c_id}},{{studentId}}">{{ class.c_name }}</OPTION>
+                            {% endfor %}
+                            </SELECT>
+                            <input type="submit" class="btn btn-success" value="Add Student to Class">
+                        {% endif %}
+                    </form>
+                {% endif %}
+            {% endif %}
+        </div>
+    </body>
+</html>

@@ -1,0 +1,132 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <title>My scratchboard page</title>
+    </head>
+
+    <body>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#">Anmol's scratchpad: Main Page, Date: 04/24/2021, IS-668 <span class="sr-only">(current)</span></a>
+                    </li>
+                </ul>
+                <span class="navbar-text">
+                    <ul class="nav navbar-nav navbar-right">
+                        {% if current_user.is_authenticated %}
+                            <li><a href="{{ url_for('logout') }}">Log out</a></li>
+                        {% else %}
+                            <li><a href="{{ url_for('login') }}">Log in</a></li>
+                        {% endif %}
+                    </ul>
+                </span>
+            </div>
+        </nav>
+
+        <nav class="navbar navbar-expand-sm bg-light">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="http://acis668.pythonanywhere.com/dashboard/">Dashboard</a>
+                    </li>
+                    <li>
+                        <a class="nav-link" href="http://acis668.pythonanywhere.com/studentRosterAlphabetical/">A-Z Student Roster</a>
+                    </li>
+                 </ul>
+        </nav>
+
+        <div class="container">
+            <h2>Students</h2>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                      <th scope="col">First Name</th>
+                      <th scope="col">Last Name</th>
+                      <th scope="col">Major</th>
+                      <th scope="col">e-Mail</th>
+                    </tr>
+                 </thead>
+                {% for student in students %}
+                    <th scope="row">
+                        <tbody>
+                            <td>
+                                {{ student.s_first_name }}
+                            </td>
+                            <td>
+                                {{ student.s_last_name }}
+                            </td>
+                            <td>
+                                {{ student.s_major }}
+                            </td>
+                            <td>
+                                {{ student.s_email }}
+                            </td>
+                        </tbody>
+                    </th>
+                {% endfor %}
+            </table>
+        </div><!-- /.container -->
+
+
+        </br>
+        {% if current_user.is_authenticated %}
+        <div class="container">
+            <h2>Classes</h2>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                      <th scope="col">Class ID</th>
+                      <th scope="col">Class Name</th>
+                      <th scope="col">Class Professor</th>
+                    </tr>
+                 </thead>
+                {% for Class in classes %}
+                    <th scope="row">
+                        <tbody>
+                            <td> {{ Class.c_id }} </td>
+                            <td> {{ Class.c_name }} </td>
+                            <td> {{ Class.c_prof }} </td>
+                        </tbody>
+                    </th>
+                {% endfor %}
+            </table>
+        </div>
+        </br>
+        <div class="container">
+            <h2>Assignments</h2>
+            {% if assignments|length>0 %}
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                          <th scope="col">Assignment ID</th>
+                          <th scope="col">Assignment Name</th>
+                          <th scope="col">Assignment Grade</th>
+                          <th scope="col">Class Name</th>
+                          <th scope="col">Student Name</th>
+                        </tr>
+                     </thead>
+                    {% for Class, Students, Assignment in assignments %}
+                        <th scope="row">
+                            <tbody>
+                                <td> {{ Assignment.a_id }} </td>
+                                <td> {{ Assignment.a_name }} </td>
+                                <td> {{ Assignment.a_grade }} </td>
+                                <td> {{ Class.c_name }} </td>
+                                <td> {{ Students.s_first_name }} {{ Students.s_last_name }}</td>
+                            </tbody>
+                        </th>
+                    {% endfor %}
+                </table>
+            {% else %}
+                <h2>Thereare no assignments!</h2>
+            {% endif %}
+        </div>
+        {% endif %}
+
+
+    </body>
+</html>

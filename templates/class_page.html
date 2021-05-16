@@ -1,0 +1,77 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <title>My scratchboard page</title>
+    </head>
+
+    <body>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#">Anmol's scratchpad: Main Page, Date: 04/24/2021, IS-668 <span class="sr-only">(current)</span></a>
+                    </li>
+                </ul>
+                <span class="navbar-text">
+                    <ul class="nav navbar-nav navbar-right">
+                        {% if current_user.is_authenticated %}
+                            <li><a href="{{ url_for('logout') }}">Log out</a></li>
+                        {% else %}
+                            <li><a href="{{ url_for('login') }}">Log in</a></li>
+                        {% endif %}
+                    </ul>
+                </span>
+            </div>
+        </nav>
+
+        <nav class="navbar navbar-expand-sm bg-light">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="http://acis668.pythonanywhere.com/dashboard/">Dashboard</a>
+                    </li>
+                 </ul>
+        </nav>
+
+
+        <div class="container">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                      <th scope="col">Class</th>
+                      <th scope="col">Professor</th>
+                    </tr>
+                 </thead>
+                {% for class in classList %}
+                    <th scope="row">
+                        <tbody>
+                            <td>
+                                {{ class.c_name }}
+                            </td>
+                            <td>
+                                {{ class.c_prof }}
+                            </td>
+                        </tbody>
+                    </th>
+                {% endfor %}
+            </table>
+        </div><!-- /.container -->
+
+        <div class="container">
+            {% if current_user.is_authenticated %}
+                <div class="row">
+                    <form action="/class/" method="POST">
+                        <input type="text" class="form-control" name="c_name" placeholder="Class Name">
+                        <input type="text" class="form-control" name="c_prof" placeholder="Professor Name">
+                        <input type="submit" class="btn btn-success" value="Add Class">
+                    </form>
+                </div>
+            {% endif %}
+        </div>
+
+
+    </body>
+</html>
